@@ -13,19 +13,22 @@ public class Configuration {
     private String steamUserId64;
     private String steamUserId;
 
-    public Configuration()
+    private String propertiesPath;
+
+    public Configuration(String propertiesPath)
     {
-        this.loadConfiguration();
+        this.propertiesPath = propertiesPath;
+        this.loadProperties();
     }
 
-    private void loadConfiguration()
+    private void loadProperties()
     {
         Properties prop = new Properties();
         InputStream input;
         FileOutputStream output;
 
         try {
-            File file = new File("config.properties");
+            File file = new File(propertiesPath);
             if(file.exists() && !file.isDirectory()) {
 
                 input = new FileInputStream(file);
@@ -45,13 +48,12 @@ public class Configuration {
                 prop.setProperty(Configuration.STEAM_USER_ID, "");
                 prop.setProperty(Configuration.STEAM_USER_ID_64, "");
 
-                output = new FileOutputStream("config.properties");
+                output = new FileOutputStream(this.propertiesPath);
 
                 prop.store(output, null);
+                output.close();
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,18 +71,12 @@ public class Configuration {
         return steamUserId;
     }
 
-    public Object[][] getObjects()
-    {
-        Object[][] objects = {
-                {STEAM_API_ID, this.getSteamApiId()},
-                {STEAM_USER_ID_64, this.getSteamUserId64()},
-                {STEAM_USER_ID, this.getSteamUserId()}
-        };
-
-        return objects;
+    public boolean isNotConfigured() {
+        return isNullOrEmpty(steamUserId) || isNullOrEmpty(steamUserId64) || isNullOrEmpty(steamApiId);
     }
 
-    public boolean isUnconfigured() {
-        return getSteamUserId().isEmpty() || this.getSteamUserId64().isEmpty() || this.getSteamApiId().isEmpty();
+    private boolean isNullOrEmpty(String value)
+    {
+        return null == steamUserId || value.isEmpty();
     }
 }

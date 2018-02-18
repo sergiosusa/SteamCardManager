@@ -19,3 +19,5 @@ target/
 *.scm
 config.properties
 images/*
+!noCards.scm
+!baseGames.scm
