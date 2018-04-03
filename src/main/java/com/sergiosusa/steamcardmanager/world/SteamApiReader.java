@@ -38,7 +38,7 @@ public class SteamApiReader {
         for (int i = 0; i < newArray.length(); i++) {
 
             int appId = newArray.getJSONObject(i).getInt("appid");
-            String name = newArray.getJSONObject(i).getString("name");
+            String name = newArray.getJSONObject(i).getString("name").trim();
             String logo = newArray.getJSONObject(i).getString("img_logo_url");
             String icon = newArray.getJSONObject(i).getString("img_icon_url");
 

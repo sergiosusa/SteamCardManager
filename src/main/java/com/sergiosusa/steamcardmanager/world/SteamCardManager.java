@@ -108,7 +108,7 @@ public class SteamCardManager implements Persistable {
 
             Game baseGame = baseGames.get(Integer.parseInt(data[0]));
             if (null != baseGame) {
-                baseGame.setClassIdUsingName(data[2], data[1]);
+                baseGame.setClassIdUsingName(data[2].replace("(Trading Card)", ""), data[1]);
             } else {
 
                 Game newGame =  new Game("", Integer.parseInt(data[0]), "","");
@@ -117,7 +117,7 @@ public class SteamCardManager implements Persistable {
                     gamesWithoutCards.put(newGame.getAppId(), newGame);
                 } else {
                     steamBadgePageScraper.scrapeBadgePage(newGame);
-                    newGame.setClassIdUsingName(data[2], data[1]);
+                    newGame.setClassIdUsingName(data[2].replace("(Trading Card)", ""), data[1]);
                     baseGames.put(newGame.getAppId(), newGame);
                     baseGame=newGame;
                 }
@@ -125,13 +125,13 @@ public class SteamCardManager implements Persistable {
 
             Game game = games.get(Integer.parseInt(data[0]));
             if (null != game) {
-                game.setClassIdUsingName(data[2], data[1]);
-                game.setOwnQuantityUsingName(data[2], Integer.parseInt(data[3]));
+                game.setClassIdUsingName(data[2].replace("(Trading Card)", ""), data[1]);
+                game.setOwnQuantityUsingName(data[2].replace("(Trading Card)", ""), Integer.parseInt(data[3]));
             } else {
 
                 if (null != baseGame){
-                    baseGame.setClassIdUsingName(data[2], data[1]);
-                    baseGame.setOwnQuantityUsingName(data[2], Integer.parseInt(data[3]));
+                    baseGame.setClassIdUsingName(data[2].replace("(Trading Card)", ""), data[1]);
+                    baseGame.setOwnQuantityUsingName(data[2].replace("(Trading Card)", ""), Integer.parseInt(data[3]));
                     games.put(baseGame.getAppId(), baseGame);
                 }
 

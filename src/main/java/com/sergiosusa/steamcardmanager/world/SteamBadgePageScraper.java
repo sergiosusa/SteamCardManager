@@ -79,12 +79,9 @@ public class SteamBadgePageScraper implements Persistable {
         String quantity = card.getElementsByClass("badge_card_set_text_qty").text().replace("(", "").replace(")", "");
         String line = card.getElementsByClass("badge_card_set_text").text().replace("(" + quantity + ")", "");
 
-        Pattern pattern = Pattern.compile("(\\D*)(\\d+)");
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            cardTitle = matcher.group(1).trim();
-            cardNumber = matcher.group(2).trim();
-        }
+        line = line.substring(0, line.lastIndexOf("of")).trim();
+        cardTitle = line.substring(0, line.lastIndexOf(" ")).trim();
+        cardNumber = line.substring(line.lastIndexOf(" "), line.length()).trim();
 
         return new Card(
                 Integer.parseInt(cardNumber),
